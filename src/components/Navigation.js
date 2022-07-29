@@ -2,50 +2,116 @@ import react from "react";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import navigation from "./navigation.css";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, InboxOutlined } from "@ant-design/icons";
 import { UserContext } from "../context";
+import {
+  NavItem,
+  NavLink,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
-const Navigation = ({ logout }) => {
+const Navigation = ({ logout, direction, ...args }) => {
   const [state, setState] = useContext(UserContext);
-
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const userType = state.user.role;
+  console.log(userType);
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
   return (
-    <div className="navbars">
-      <>
-      <Link to="/find-job">Find Work </Link>
-      <Link to="/frelancer/jobs">My Jobs</Link>
-
-      <Link to="/report">Report </Link>
-      <Link to="/messege">Messess</Link>
-      <Link to="/users/helps">help </Link>
-
-      </>
-      <div className="dropdowns">
-        <button className="dropbtns">
-          {/* <DownOutlined /> */}
-          {state && state.user && state.user.name}
-          <DownOutlined />
+    <>
+      <form className="d-flex">
+        <input
+          className="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button className="btn btn-outline-success" type="submit">
+          Search
         </button>
-        <div className="dropdown-contents">
-          <Link to="/user/dashboard">Dashboard</Link>
+      </form>
 
-          {state.user.role == "Admin" && (
-            <>
-              
-                <Link to="/admin">Admin</Link>
-            </>
-          )}
-          {/* profile */}
-          <Link to="/user/profile/update">
-                    Profile
-                </Link>
-        
-            <a onClick={logout} className="nav-link">
-              Logout
-            </a>
- 
-        </div>
+      <div
+        className="collapse navbar-collapse menu"
+        id="navbarSupportedContent"
+      >
+        <>
+          <NavItem>
+            <Link className="nav-link" to="/find-job">
+              Find Work{" "}
+            </Link>
+          </NavItem>
+          <NavItem>
+            <Link className="nav-link" to="/frelancer/jobs">
+              My-Jobs
+            </Link>
+          </NavItem>
+          {/*  */}
+          <NavItem>
+            <Link className="nav-link" to="/users/helps">
+              ?{" "}
+            </Link>
+          </NavItem>
+          {/*  */}
+          <NavItem>
+            <Link className="nav-link" to="/messege">
+              <InboxOutlined className="text-danger" id="msg" />
+            </Link>
+          </NavItem>
+          <NavItem>
+            <Link className="nav-link" to="/byer-deshboard">
+              Byer
+            </Link>
+          </NavItem>
+          {/*  */}
+        </>
       </div>
-    </div>
+      <div id="dp" className="d-flex">
+        <Dropdown id="dp" isOpen={dropdownOpen} toggle={toggle} direction={direction}>
+          <DropdownToggle caret>
+            {state && state.user && state.user.name}
+          </DropdownToggle>
+          <DropdownMenu {...args}>
+            <DropdownItem header>
+              <Link to="/user/dashboard">Dashboard</Link>
+            </DropdownItem>
+
+            {(() => {
+              switch (userType) {
+                case "Admin":
+                  return (
+                    <DropdownItem header>
+                      <Link to="/admin">Admin</Link>
+                    </DropdownItem>
+                  );
+                case "Byar":
+                  return (
+                    <>
+                      <DropdownItem header>
+                        <Link to="/byer-deshboard">Byer</Link>
+                      </DropdownItem>
+                    </>
+                  );
+                default:
+                  return <></>;
+              }
+            })()}
+
+            <DropdownItem>
+              <Link to="/user/profile/update">Profile</Link>
+            </DropdownItem>
+
+            <DropdownItem>
+              <a onClick={logout} className="nav-link">
+                Logout
+              </a>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+    </>
   );
 };
 

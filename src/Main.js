@@ -15,6 +15,7 @@ import Messege from './pages/user/Messege';
 import UsersHelp from './pages/user/UsersHelp';
 import FindJob from './pages/user/FindJob'
 import UserJobs from './pages/user/UserJobs';
+import ByerDeshboard from './pages/user/ByerDeshboard';
 
 const Main = () => {
   return (
@@ -35,6 +36,7 @@ const Main = () => {
             <Route path="/users/helps" exact component={UsersHelp} />
             <Route path="/find-job" exact component={FindJob}/>
             <Route path="/frelancer/jobs" exact component={UserJobs}/>
+            <Route path ="/byer-deshboard" exact component={ByerDeshboard}/>
             <Redirect from="/" to="/home" />
         </Switch>
     </div>

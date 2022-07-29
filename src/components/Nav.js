@@ -1,6 +1,6 @@
 import react from "react";
 import { useContext, useEffect, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { UserContext } from "../context";
 // import { useRouter } from "next/router";
 import { useHistory } from "react-router-dom";
@@ -9,6 +9,9 @@ import Navigation from "./Navigation";
 import navigation from "./navigation.css";
 import Search from "./Search";
 import {SearchOutlined} from '@ant-design/icons'
+import { Nav } from "reactstrap";
+
+
 const Navs = (props) => {
   const history = useHistory();
   const [current, setCurrent] = useState("");
@@ -27,38 +30,22 @@ const Navs = (props) => {
     history.push("/login");
   };
   return (
-    <nav
-      className="nav d-flex justify-content-between"
-      style={{ backgroundColor: "blue" }}
-    >
+    <>
+    <Nav className="navbar navbar-expand-lg bg-dark">
+      <div className="container-fluid">
       <Link to="/">
         <a
-          className={`nav-link text-light logo ${current === "/" && "active"}`}
+          className={`nav-link text-light logo  ${current === "/" && "active"}`}
         >
           <Avatar src="/images/logo.png" /> MERNCAMP
         </a>
       </Link>
-      {/* search */}
-      <div>
-      <form className="form-inline row serchbar">
-        <div className="col-9">
-          <input
-            className="form-control searchbar"
-            type="search"
-            placeholder="Search"
-          />
-        </div>
-      </form>
-<div className="ic-btn">
-<SearchOutlined />
 
-</div>
-      </div>
-{/*  */}
-      {state !== null ? (
-        <div className="menu">
+  {state !== null ? (
+        <>
           <Navigation logout={logout} />
-        </div>
+        </>
+        
       ) : (
         <>
           <Link
@@ -79,8 +66,10 @@ const Navs = (props) => {
           </Link>
         </>
       )}
-    </nav>
-  );
+      </div>
+    </Nav>
+  </>
+    )
 };
 
 export default  Navs;
